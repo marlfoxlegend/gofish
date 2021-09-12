@@ -4,8 +4,7 @@ import itertools as itt
 import random
 import typing as tp
 
-import recipes
-from gofish.recipes import grouper
+import gofish.recipes as recipes
 
 GOFISH_HAND_SIZE = 7
 GOFISH_MAX_PLAYERS = 5
@@ -122,7 +121,7 @@ class Hand:
         grouped = filter(lambda x: len(x) > 1, grouped)
         pairs = []
         for group in grouped:
-            for pair in grouper(group, 2):
+            for pair in recipes.grouper(group, 2):
                 pairs.append(tuple(self.take_from_hand(*pair)))
         return pairs
         # for c in self.stack:

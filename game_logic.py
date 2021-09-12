@@ -13,7 +13,7 @@ prompts_ = GamePrompts()
 
 
 def create_human_player() -> HumanPlayer:
-    name = get_name_prompt()
+    name = prompts_.get_name_prompt()
     return HumanPlayer(name.upper())
 
 
@@ -43,8 +43,8 @@ def build_players(same_user=None) -> tp.Tuple[AnyPlayer, ...]:
     """
     if same_user is None:
         same_user = create_human_player()
-    num_ai = num_ai_prompt()
-    return (same_user, *create_ai_player(num_ai))
+    num_ai = prompts_.num_ai_prompt()
+    return same_user, *create_ai_player(num_ai)
 
 
 def filtfalse_players(players: tp.Sequence[AnyPlayer], pred: tp.Callable[[AnyPlayer], bool]):

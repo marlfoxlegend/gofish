@@ -4,9 +4,11 @@ import itertools as itt
 import random
 import types
 import typing as tp
-
+from gofish.interaction import GamePrompts, GameStrings
 from gofish.card import Card
 from gofish.player import AnyPlayer
+
+prompt_ = GamePrompts()
 
 
 class TurnOutcomes(enum.Enum):
@@ -28,13 +30,13 @@ def clear_screen():
 
 def user_choose_card(turn: 'Turn'):
     turn.active.view_hand()
-    turn.wanted_card = choose_card_prompt(turn.active)
+    turn.wanted_card = prompt_.choose_card_prompt(turn.active)
     return turn
 
 
 def user_choose_opp(turn: 'Turn'):
     print(*[f'{n}) {p!s}' for n, p in enumerate(turn.game.players[1:], start=1)], sep='\n')
-    turn.opponent = choose_opp_prompt(turn.game.players[1:])
+    turn.opponent = prompt_.choose_opp_prompt(turn.game.players[1:])
 
 
 def ai_choose_card(turn: 'Turn'):
@@ -89,7 +91,7 @@ class Turn:
         print(f'Deck: {len(self.game.deck)}')
         # print('{:>10}\t{:>5}\t{:^5}'.format(*'Player Cards Score'.split()))
         stat = '{0.name:>10}(Cards: {0.hand.count:<} Pairs: {0.num_pairs:<})'
-        print(*[stat.format(p) for p in self.game.players], sep=' ')
+        print(*[stat.format(p.name) for p in self.game.players], sep=' ')
         print(self.game.user)
 
     def enter(self):
